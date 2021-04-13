@@ -38,9 +38,10 @@ class MainActivity : AppCompatActivity(),
             ViewModelProvider(this
             ).get(MainViewModel::class.java)
         apiClient = ApiClient()
+        apiService = ApiClient().getApiService(this)
         sessionManager = SessionManager(this)
-        getToken()
-//        viewModel.getToken(apiService, sessionManager)
+//        getToken()
+        viewModel.getToken(apiService, sessionManager)
 
         val orientation = resources.configuration.orientation
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
