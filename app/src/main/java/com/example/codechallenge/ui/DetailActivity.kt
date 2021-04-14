@@ -3,21 +3,26 @@ package com.example.codechallenge.ui
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.codechallenge.viewmodel.DetailViewModel
-import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.R
-import com.example.codechallenge.util.SessionManager
 import com.example.codechallenge.model.DetailDTO
+import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.repository.ApiService
-import com.squareup.picasso.Picasso
+import com.example.codechallenge.util.Constants.CACHE_KEY
+import com.example.codechallenge.util.SessionManager
+import com.example.codechallenge.viewmodel.DetailViewModel
+import com.nostra13.universalimageloader.core.DisplayImageOptions
+import com.nostra13.universalimageloader.core.ImageLoader
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import kotlinx.android.synthetic.main.activity_detail.*
-import java.lang.Exception
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -42,8 +47,12 @@ class DetailActivity : AppCompatActivity() {
         getInconmingIntent()
     }
 
+    private fun showHint() {
+        Toast.makeText(this, getString(R.string.detail_hint), Toast.LENGTH_SHORT).show()
+    }
+
     private fun getInconmingIntent() {
-        val imageUrl = intent.extras?.getString("IMAGE_URL", "0")
+        val imageUrl = intent.extras?.getString(CACHE_KEY, "0")
         imageUrl?.let {
             viewModel.fetchImageDetail(apiService, sessionManager, it)
         }
@@ -56,17 +65,33 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setImageFromUrl(image: String) {
-        Picasso.get().load(image).into(imageView, object : com.squareup.picasso.Callback {
-            override fun onSuccess() {
+        val defaultOptions =
+            DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build()
+        val config =
+            ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(defaultOptions)
+                .build()
+        val imageLoader = ImageLoader.getInstance()
+        imageLoader.init(config)
+        imageLoader.loadImage(image, object : SimpleImageLoadingListener() {
+            override fun onLoadingComplete(
+                imageUri: String,
+                view: View?,
+                loadedImage: Bitmap
+            ) {
+                showHint()
                 loading.pauseAnimation()
                 loading.visibility = View.GONE
+                imageView.setImageBitmap(loadedImage)
+                fadeIn(imageView)
             }
-
-            override fun onError(e: Exception?) {
-                TODO("Not yet implemented")
-            }
-
         })
+    }
+
+    private fun fadeIn(view: View) {
+        view.animate().apply {
+            alpha(1f)
+            duration = 500
+        }.start()
     }
 
     private fun setContent(response: DetailDTO) {

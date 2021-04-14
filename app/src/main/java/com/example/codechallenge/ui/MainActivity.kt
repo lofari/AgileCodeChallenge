@@ -13,6 +13,7 @@ import com.example.codechallenge.adapter.OnImageClickListener
 import com.example.codechallenge.model.PictureDTO
 import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.repository.ApiService
+import com.example.codechallenge.util.Constants.CACHE_KEY
 import com.example.codechallenge.util.SessionManager
 import com.example.codechallenge.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onItemClick(item: PictureDTO, position: Int) {
         val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra("IMAGE_URL", item.id)
+            putExtra(CACHE_KEY, item.id)
         }
         startActivity(intent)
         overridePendingTransition(

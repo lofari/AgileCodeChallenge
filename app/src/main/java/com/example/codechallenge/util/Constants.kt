@@ -6,4 +6,5 @@ object Constants {
     const val AUTH_URL = "/auth"
     const val IMAGES_URL = "/images"
     const val API_KEY = "23567b218376f79d9415"
+    const val CACHE_KEY = "IMAGE_URL"
 }
