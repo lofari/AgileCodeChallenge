@@ -40,10 +40,7 @@ open class MainViewModel : ViewModel() {
                 val data =
                     apiService.fetchImages().await()
                 _pictureList.postValue(data.pictures)
-            } catch (e: Exception) {
-
-            }
-
+            } catch (e: Exception) { }
         }
     }
 }
