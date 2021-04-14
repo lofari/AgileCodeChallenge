@@ -6,19 +6,22 @@ import com.example.codechallenge.model.AuthDTO
 import com.example.codechallenge.model.DetailDTO
 import com.example.codechallenge.model.PictureListDTO
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
 
     @POST(Constants.AUTH_URL)
-    fun getToken(@Body request: AuthRequest): Call<AuthDTO>
+    fun getToken(@Body apiKey: AuthRequest): Call<AuthDTO>
 
     @GET(Constants.IMAGES_URL)
     fun fetchImages(): Call<PictureListDTO>
 
     @GET("/images/{id}")
-    fun fetchImageDetail(@Header("Authorization") token: String,@Path("id") id: String): Call<DetailDTO>
+    suspend fun fetchImageDetail(
+        @Path("id") id: String
+    ): Response<DetailDTO>
 
     @GET("/images")
-    fun loadImages(@Query("page") page: Int): Call<PictureListDTO>
+    suspend fun loadImages(@Query("page") page: Int): Response<PictureListDTO>
 }

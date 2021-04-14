@@ -3,6 +3,7 @@ package com.example.codechallenge.ui
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,8 +39,7 @@ class MainActivity : AppCompatActivity(),
         sessionManager = SessionManager(this)
         setPicturesObserver()
         setLayoutManager()
-        viewModel.getToken(apiService, sessionManager)
-        viewModel.fetchPosts(apiService, sessionManager)
+        viewModel.load(apiService, sessionManager)
     }
 
     private fun setLayoutManager() {
@@ -53,6 +53,8 @@ class MainActivity : AppCompatActivity(),
 
     private fun setPicturesObserver() {
         viewModel.pictureList.observe(this, Observer {
+            loading.visibility = View.GONE
+            loading.pauseAnimation()
             initList(it)
         })
     }

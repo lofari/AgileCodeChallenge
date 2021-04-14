@@ -54,7 +54,7 @@ class DetailActivity : AppCompatActivity() {
     private fun getInconmingIntent() {
         val imageUrl = intent.extras?.getString(CACHE_KEY, "0")
         imageUrl?.let {
-            viewModel.fetchImageDetail(apiService, sessionManager, it)
+            viewModel.fetchImageDetail(apiService, it)
         }
     }
 
@@ -82,6 +82,7 @@ class DetailActivity : AppCompatActivity() {
                 loading.pauseAnimation()
                 loading.visibility = View.GONE
                 imageView.setImageBitmap(loadedImage)
+                imageView.setZoomable(true)
                 fadeIn(imageView)
             }
         })
