@@ -9,7 +9,10 @@ import com.example.codechallenge.model.PictureDTO
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class PictureAdapter(private val modelList: List<PictureDTO>, private val clickListener: OnImageClickListener) :
+class PictureAdapter(
+    private val modelList: List<PictureDTO>,
+    private val clickListener: OnImageClickListener
+) :
     RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
@@ -39,6 +42,6 @@ class PictureAdapter(private val modelList: List<PictureDTO>, private val clickL
     }
 }
 
-interface OnImageClickListener{
+interface OnImageClickListener {
     fun onItemClick(item: PictureDTO, position: Int)
 }

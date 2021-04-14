@@ -30,6 +30,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var apiClient: ApiClient
     private lateinit var apiService: ApiService
     private lateinit var viewModel: DetailViewModel
+    private lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,17 @@ class DetailActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         setDetailObserver()
         getInconmingIntent()
+        initImageLoader()
+    }
+
+    private fun initImageLoader() {
+        val defaultOptions =
+            DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build()
+        val config =
+            ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(defaultOptions)
+                .build()
+        imageLoader = ImageLoader.getInstance()
+        imageLoader.init(config)
     }
 
     private fun showHint() {
@@ -65,13 +77,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setImageFromUrl(image: String) {
-        val defaultOptions =
-            DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build()
-        val config =
-            ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(defaultOptions)
-                .build()
-        val imageLoader = ImageLoader.getInstance()
-        imageLoader.init(config)
         imageLoader.loadImage(image, object : SimpleImageLoadingListener() {
             override fun onLoadingComplete(
                 imageUri: String,

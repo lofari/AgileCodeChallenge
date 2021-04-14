@@ -63,12 +63,14 @@ class MainActivity : AppCompatActivity(),
         val adapter =
             PictureAdapter(imageList, this)
         list.adapter = adapter
+        list.isClickable = true
     }
 
     override fun onItemClick(item: PictureDTO, position: Int) {
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra(CACHE_KEY, item.id)
         }
+        list.isClickable = false
         startActivity(intent)
         overridePendingTransition(
             R.anim.slide_from_right,
