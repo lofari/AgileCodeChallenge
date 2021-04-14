@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.codechallenge.*
-import com.example.codechallenge.adapter.ModelAdapter
+import com.example.codechallenge.adapter.PictureAdapter
 import com.example.codechallenge.adapter.OnImageClickListener
 import com.example.codechallenge.model.PictureDTO
 import com.example.codechallenge.repository.ApiClient
@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity(),
                 this
             ).get(MainViewModel::class.java)
         apiClient = ApiClient()
-        apiService = ApiClient().getApiService(this)
+        apiService = apiClient.getApiService(this)
         sessionManager = SessionManager(this)
-        observePictures()
+        setPicturesObserver()
         setLayoutManager()
 //        getToken()
         viewModel.getToken(apiService, sessionManager)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun observePictures() {
+    private fun setPicturesObserver() {
         viewModel.pictureList.observe(this, Observer {
             initList(it)
         })
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(),
 
     fun initList(imageList: List<PictureDTO>) {
         val adapter =
-            ModelAdapter(imageList, this)
+            PictureAdapter(imageList, this)
         list.adapter = adapter
     }
 

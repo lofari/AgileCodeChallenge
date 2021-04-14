@@ -7,10 +7,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.codechallenge.DetailViewModel
 import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.R
 import com.example.codechallenge.SessionManager
 import com.example.codechallenge.model.DetailDTO
+import com.example.codechallenge.repository.ApiService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import retrofit2.Call
@@ -21,22 +25,38 @@ import java.lang.Exception
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var apiClient: ApiClient
     private lateinit var sessionManager: SessionManager
+    private lateinit var apiClient: ApiClient
+    private lateinit var apiService: ApiService
+    private lateinit var viewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        viewModel =
+            ViewModelProvider(
+                this
+            ).get(DetailViewModel::class.java)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         apiClient = ApiClient()
+        apiService = apiClient.getApiService(this)
         sessionManager = SessionManager(this)
+        setDetailObserver()
         getInconmingIntent()
     }
 
     private fun getInconmingIntent() {
         val imageUrl = intent.extras?.getString("IMAGE_URL", "0")
-        imageUrl?.let { fetchImageDetail(it) }
+        imageUrl?.let {
+            viewModel.fetchImageDetail(apiService, sessionManager, it)
+        }
+    }
+
+    private fun setDetailObserver() {
+        viewModel.detail.observe(this, Observer {
+            setContent(it)
+        })
     }
 
     private fun setImageFromUrl(image: String) {
@@ -51,26 +71,6 @@ class DetailActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private fun fetchImageDetail(imageId: String) {
-        apiClient.getApiService(this)
-            .fetchImageDetail(token = "Bearer ${sessionManager.fetchAuthToken()}", id = imageId)
-            .enqueue(object : Callback<DetailDTO> {
-                override fun onFailure(call: Call<DetailDTO>, t: Throwable) {
-                    // Log Error
-                }
-
-                override fun onResponse(
-                    call: Call<DetailDTO>,
-                    response: Response<DetailDTO>
-                ) {
-                    val response = response.body()
-                    response?.let {
-                        setContent(response)
-                    }
-                }
-            })
     }
 
     private fun setContent(response: DetailDTO) {
