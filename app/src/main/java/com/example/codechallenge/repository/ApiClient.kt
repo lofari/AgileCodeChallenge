@@ -14,7 +14,7 @@ class ApiClient {
             val retrofit = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-//                .client(okhttpClient(context))
+                .client(okhttpClient(context))
                 .build()
             apiService = retrofit.create(ApiService::class.java)
         }
@@ -23,7 +23,7 @@ class ApiClient {
 
     private fun okhttpClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-//            .addInterceptor(AuthInterceptor(context))
+            .addInterceptor(AuthInterceptor(context))
             .build()
     }
 

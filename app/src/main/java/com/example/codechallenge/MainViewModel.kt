@@ -19,7 +19,6 @@ class MainViewModel : ViewModel() {
         get() = _pictureList
     private val _pictureList = MutableLiveData<List<PictureDTO>>()
 
-
     fun getToken(apiService: ApiService, sessionManager: SessionManager) {
         apiService.getToken(
             AuthRequest(
@@ -50,7 +49,7 @@ class MainViewModel : ViewModel() {
 
     fun fetchPosts(apiService: ApiService, sessionManager: SessionManager) {
         apiService
-            .fetchImages(token = "Bearer ${sessionManager.fetchAuthToken()}")
+            .fetchImages()
             .enqueue(object : Callback<PictureListDTO> {
                 override fun onFailure(call: Call<PictureListDTO>, t: Throwable) {
                     getToken(apiService, sessionManager)

@@ -14,7 +14,8 @@ interface ApiService {
     fun getToken(@Body request: AuthRequest): Call<AuthDTO>
 
     @GET(Constants.IMAGES_URL)
-    fun fetchImages(@Header("Authorization") token: String): Call<PictureListDTO>
+    fun fetchImages(): Call<PictureListDTO>
+
 
     @GET("/images/{id}")
     fun fetchImageDetail(@Header("Authorization") token: String,@Path("id") id: String): Call<DetailDTO>
