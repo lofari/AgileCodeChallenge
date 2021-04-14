@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.codechallenge.model.DetailDTO
 import com.example.codechallenge.repository.ApiService
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class DetailViewModel : ViewModel() {
@@ -21,7 +21,7 @@ class DetailViewModel : ViewModel() {
     }
 
     fun fetchImageDetail(apiService: ApiService, imageId: String) {
-        viewModelScope.launch(Dispatchers.Main + coroutineExceptionHandler) {
+        viewModelScope.launch(IO + coroutineExceptionHandler) {
             val response = apiService.fetchImageDetail(imageId)
             if (response.isSuccessful) {
                 response.body()?.let {

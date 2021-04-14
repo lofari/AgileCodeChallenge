@@ -10,7 +10,6 @@ import com.example.codechallenge.repository.ApiService
 import com.example.codechallenge.util.Constants
 import com.example.codechallenge.util.SessionManager
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +26,7 @@ open class MainViewModel : ViewModel() {
     }
 
     fun load(apiService: ApiService, sessionManager: SessionManager) {
-        viewModelScope.launch(Dispatchers.Main + coroutineExceptionHandler) {
+        viewModelScope.launch(IO + coroutineExceptionHandler) {
             try {
                 var token = withContext(IO) {
                     sessionManager.fetchAuthToken()

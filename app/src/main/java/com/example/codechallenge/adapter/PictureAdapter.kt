@@ -32,7 +32,7 @@ class PictureAdapter(
         holder.bindData(modelList[position], clickListener)
     }
 
-    class PictureViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class PictureViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindData(model: PictureDTO, action: OnImageClickListener) {
             Picasso.get().load(model.image).into(view.item_image)
             view.setOnClickListener {

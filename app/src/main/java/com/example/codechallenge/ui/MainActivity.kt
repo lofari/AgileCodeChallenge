@@ -30,6 +30,17 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        instanceDependencies()
+        initActions()
+    }
+
+    private fun initActions() {
+        setPicturesObserver()
+        setLayoutManager()
+        viewModel.load(apiService, sessionManager)
+    }
+
+    private fun instanceDependencies() {
         viewModel =
             ViewModelProvider(
                 this
@@ -37,9 +48,6 @@ class MainActivity : AppCompatActivity(),
         apiClient = ApiClient()
         apiService = apiClient.getApiService(this)
         sessionManager = SessionManager(this)
-        setPicturesObserver()
-        setLayoutManager()
-        viewModel.load(apiService, sessionManager)
     }
 
     private fun setLayoutManager() {
