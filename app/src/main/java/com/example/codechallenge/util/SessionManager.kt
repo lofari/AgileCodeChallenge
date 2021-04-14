@@ -1,10 +1,13 @@
-package com.example.codechallenge
+package com.example.codechallenge.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.codechallenge.R
 
 class SessionManager (context: Context) {
-    private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+    private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(
+        R.string.app_name
+    ), Context.MODE_PRIVATE)
 
     companion object {
         const val USER_TOKEN = "user_token"

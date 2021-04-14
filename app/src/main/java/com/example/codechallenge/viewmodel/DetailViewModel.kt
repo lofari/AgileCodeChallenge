@@ -1,10 +1,10 @@
-package com.example.codechallenge
+package com.example.codechallenge.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.codechallenge.util.SessionManager
 import com.example.codechallenge.model.DetailDTO
-import com.example.codechallenge.model.PictureDTO
 import com.example.codechallenge.repository.ApiService
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +15,6 @@ class DetailViewModel: ViewModel() {
     val detail: LiveData<DetailDTO>
         get() = _detail
     private val _detail = MutableLiveData<DetailDTO>()
-
 
     fun fetchImageDetail(apiService: ApiService, sessionManager: SessionManager, imageId: String) {
        apiService
@@ -31,7 +30,6 @@ class DetailViewModel: ViewModel() {
                 ) {
                     val response = response.body()
                     response?.let {
-//                        setContent(response)
                         _detail.postValue(it)
                     }
                 }

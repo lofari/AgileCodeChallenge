@@ -1,7 +1,7 @@
 package com.example.codechallenge.repository
 
 import android.content.Context
-import com.example.codechallenge.SessionManager
+import com.example.codechallenge.util.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Response
 

@@ -1,9 +1,11 @@
-package com.example.codechallenge
+package com.example.codechallenge.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.codechallenge.util.Constants
+import com.example.codechallenge.util.SessionManager
 import com.example.codechallenge.model.AuthDTO
 import com.example.codechallenge.model.AuthRequest
 import com.example.codechallenge.model.PictureDTO
@@ -62,12 +64,9 @@ class MainViewModel : ViewModel() {
                 ) {
                     val response = response.body()
                     response?.pictures?.let {
-//                        initList(it)
                         _pictureList.postValue(it)
                     }
                 }
             })
     }
-
-
 }

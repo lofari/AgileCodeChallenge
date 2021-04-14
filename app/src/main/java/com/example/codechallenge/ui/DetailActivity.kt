@@ -9,19 +9,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.codechallenge.DetailViewModel
+import com.example.codechallenge.viewmodel.DetailViewModel
 import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.R
-import com.example.codechallenge.SessionManager
+import com.example.codechallenge.util.SessionManager
 import com.example.codechallenge.model.DetailDTO
 import com.example.codechallenge.repository.ApiService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
-
 
 class DetailActivity : AppCompatActivity() {
 

@@ -13,6 +13,8 @@ import com.example.codechallenge.adapter.OnImageClickListener
 import com.example.codechallenge.model.PictureDTO
 import com.example.codechallenge.repository.ApiClient
 import com.example.codechallenge.repository.ApiService
+import com.example.codechallenge.util.SessionManager
+import com.example.codechallenge.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),
@@ -35,9 +37,7 @@ class MainActivity : AppCompatActivity(),
         sessionManager = SessionManager(this)
         setPicturesObserver()
         setLayoutManager()
-//        getToken()
         viewModel.getToken(apiService, sessionManager)
-//        fetchPosts()
         viewModel.fetchPosts(apiService, sessionManager)
     }
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(),
         })
     }
 
-    fun initList(imageList: List<PictureDTO>) {
+    private fun initList(imageList: List<PictureDTO>) {
         val adapter =
             PictureAdapter(imageList, this)
         list.adapter = adapter
@@ -72,53 +72,4 @@ class MainActivity : AppCompatActivity(),
             R.anim.slide_from_left
         )
     }
-
-
-//    private fun getToken() {
-//        apiClient.getApiService(this).getToken(
-//            AuthRequest(
-//                Constants.API_KEY
-//            )
-//        ).enqueue(
-//            object : Callback<AuthDTO> {
-//                override fun onFailure(call: Call<AuthDTO>, t: Throwable) {
-//                    // Log Error
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<AuthDTO>,
-//                    response: Response<AuthDTO>
-//                ) {
-//                    val authResponse = response.body()
-//                    if (response.code() == 200 && authResponse?.token != null) {
-//                        Log.e("TOKEN: ", authResponse.token)
-//                        sessionManager.saveAuthToken(authResponse.token)
-//                    } else {
-//                        // Log Error
-//                    }
-//                }
-//
-//            }
-//        )
-//    }
-//
-//    private fun fetchPosts() {
-//        apiClient.getApiService(this)
-//            .fetchImages(token = "Bearer ${sessionManager.fetchAuthToken()}")
-//            .enqueue(object : Callback<PictureListDTO> {
-//                override fun onFailure(call: Call<PictureListDTO>, t: Throwable) {
-//                    getToken()
-//                    Log.e("FAILED FETCHING IMAGES", t.message!!)
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<PictureListDTO>,
-//                    response: Response<PictureListDTO>
-//                ) {
-//                    val response = response.body()
-//                    response?.pictures?.let { initList(it) }
-//                }
-//            })
-//    }
-
 }
